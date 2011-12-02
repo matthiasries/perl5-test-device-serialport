@@ -1017,7 +1017,16 @@ sub read_const_time
 
 sub read_interval
 {
-    die qq(Can't locate object method "read_interval" via package "Device::SerialPort");
+    my $self = shift;
+    if ($^O ne "MSWin32"){
+	    die qq(Can't locate object method "read_interval" via package "Device::SerialPort") if not ($^O eq "MSWin32");
+    }
+    warn qq(Can't locate object method "read_interval" via package "Device::SerialPort");
+    if( @_ )
+    {
+        $self->{_read_interval} = shift();
+    }
+    return( $self->{_read_interval} );
 }
 
 # Set stopbits
